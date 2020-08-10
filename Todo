@@ -1,0 +1,82 @@
+from tkinter import *
+class Login:
+    
+    i=5
+    
+    def __init__(self):
+
+        self.root=Tk()
+        self.root.title("TODO")
+        self.root.minsize(400,600)
+        
+        self.error=Label(self.root)
+        self.error.configure(font=("Arial",10))
+        self.D=dict()
+
+        #Welcome Screen
+        self.label1=Label(self.root, text="TODO-LIST",fg="#f58662")
+        self.label1.configure(font=("Arial",22,"bold","underline"))
+        self.label1.grid(row=0,column=5)
+
+        #Add List
+        self.new_list=Entry(self.root,width=20)
+        self.new_list.grid(row=1,column=1)
+
+        self.add_List=Button(self.root,text="Add New List",width=10, height=2,command=lambda:self.add())
+        self.add_List.grid(row=2,column=1)
+        
+        #Remove List
+        self.rem_list=Entry(self.root,width=20)
+        self.rem_list.grid(row=3,column=1)
+
+        self.remove_List=Button(self.root,text="Remove List",width=10, height=2,command=lambda:self.remove())
+        self.remove_List.grid(row=4,column=1)
+
+        self.root.mainloop()
+
+
+    def add(self):
+        
+        new_list=self.new_list.get()
+        
+        if  len(new_list)>0 and (new_list not in self.D.keys()) :
+           
+            self.error.configure(text="") 
+            R1 = Radiobutton(self.root, text=new_list,  value=1)
+            R1.grid(row=self.i,column=2,sticky=W) 
+            self.i+=1 
+            self.D[new_list]=R1
+        
+        elif len(new_list)>0 and (new_list in self.D.keys())  :
+            
+            self.error.configure(text="List with same name exists")
+            self.error.grid(row=5,column=1)
+        
+        else:
+            
+            self.error.configure(text="Enter the new list first")
+            self.error.grid(row=5,column=1)
+    
+    def remove(self):
+        
+        rem_list=self.rem_list.get()
+        
+        if len(rem_list)>0 and rem_list in self.D.keys():
+            
+            self.error.configure(text="")
+            self.D[rem_list].destroy()
+            del(self.D[rem_list])
+        
+        elif len(rem_list)>0 and rem_list not in self.D.keys():
+            
+            self.error.configure(text="No such list is there")
+            self.error.grid(row=5,column=1)
+
+        else:
+            
+            self.error.configure(text="Enter the list to be deleated")
+            self.error.grid(row=5,column=1)
+
+        
+
+obj1=Login()
